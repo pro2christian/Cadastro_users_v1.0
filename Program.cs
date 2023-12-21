@@ -35,7 +35,7 @@ namespace Projeto_para_estudos
                 Excecao = 2
             }
             //métodos:
-            public static void ImprimeMensagens(string mensagem)
+            public static void ImprimeNoConsole(string mensagem)
             {
                 Console.WriteLine(mensagem);
             }
@@ -50,7 +50,7 @@ namespace Projeto_para_estudos
                     temp = Console.ReadLine();
                     if (temp == string.Empty)
                     {
-                        ImprimeMensagens("Nenhum nome digitado!!");
+                        ImprimeNoConsole("Nenhum nome digitado!!");
                         Console.ReadKey();
                     }
                     Console.Clear();
@@ -87,7 +87,7 @@ namespace Projeto_para_estudos
                     catch (Exception ex)
                     {
                         Console.WriteLine("Exceção: " + ex.Message);
-                        ImprimeMensagens("Presione qualquer tecla para continuar");
+                        ImprimeNoConsole("Presione qualquer tecla para continuar");
                         Console.ReadKey();
                         Console.Clear();
                         retorno = Resultado_e.Excecao;
@@ -118,7 +118,7 @@ namespace Projeto_para_estudos
                     catch (Exception ex)
                     {
                         Console.WriteLine("Exeção: " + ex.Message);
-                        ImprimeMensagens("Presione qualquer tecla para continuar");
+                        ImprimeNoConsole("Presione qualquer tecla para continuar");
                         Console.ReadKey();
                         Console.Clear();
                         retorno = Resultado_e.Excecao;
@@ -146,6 +146,7 @@ namespace Projeto_para_estudos
                 if (PegaNumeroCasa(ref cadastroDoUsuario.NumeroDaCasa, "Digite o número da casa ou S para sair") == Resultado_e.Sair)
                     return Resultado_e.Sair;
                 if (PegaString(ref cadastroDoUsuario.NumeroDocumento, "Digite o número do documento ou S para sair") == Resultado_e.Sair)
+                    return Resultado_e.Sair;
                     ListaUsuario_m.Add(cadastroDoUsuario);
                     GravaDados(caminhoDados, ListaUsuario_m);
                 return Resultado_e.Sucesso;
@@ -212,7 +213,41 @@ namespace Projeto_para_estudos
                     Console.WriteLine("EXCEÇÃO: " + ex.Message);
                 }
             }
-            
+            public static void BuscaUserDoc(List<DadosDeUsuario_e> ListaUsuarios)
+            {
+                ImprimeNoConsole("Digite o número do documento para buscar o usúario ou digite S para sair");
+                string temp = Console.ReadLine();
+                Console.Clear();
+                if (temp.ToLower() == "s")
+                    return;
+                else
+                {
+                    List<DadosDeUsuario_e> ListaUsuariosTemp = ListaUsuarios.Where( user => user.NumeroDocumento == temp).ToList();
+                    if (ListaUsuariosTemp.Count > 0)
+                    {
+                        ImprimeNoConsole("DOCUMENTO_ENCONTRADO: "+ ListaUsuariosTemp.Count);
+                        foreach(DadosDeUsuario_e userExiste in ListaUsuariosTemp)
+                        {
+                            ImprimeNoConsole(tgNome + userExiste.Nome);
+                            ImprimeNoConsole(tgDtNascimento + userExiste.DataDeNascimento.ToString("dd/MM/yyyy"));
+                            ImprimeNoConsole(tgNumeroDocumento + userExiste.NumeroDocumento);
+                            ImprimeNoConsole(tgNomeDaRua + userExiste.NomeDaRua);
+                            ImprimeNoConsole(tgNumeroCasa + userExiste.NumeroDaCasa);
+                        }
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        ImprimeNoConsole("Nenhum usúario encontrado com o documento: "+ temp);
+                        Console.ReadKey();
+                        Console.Clear();
+
+                    }
+
+                }
+
+            }
             static void Main(string[] args)
             {
                 List<DadosDeUsuario_e> ListaUsuarios = new List<DadosDeUsuario_e>();
@@ -229,16 +264,16 @@ namespace Projeto_para_estudos
 
                 do
                 {
-                    ImprimeMensagens("Digite C para cadastrar um novo usuário");
-                    ImprimeMensagens("Digite B para buscar um usuário");
-                    ImprimeMensagens("Digite E para excluir um usuário");
-                    ImprimeMensagens("Digite S para sair");
+                    ImprimeNoConsole("Digite C para cadastrar um novo usuário");
+                    ImprimeNoConsole("Digite B para buscar um usuário");
+                    ImprimeNoConsole("Digite E para excluir um usuário");
+                    ImprimeNoConsole("Digite S para sair");
                     opcaoEscolhida = Console.ReadKey(true).KeyChar.ToString().ToLower();
-
                     Console.Clear();
+                    
                     if (opcaoEscolhida == "s")
                     {
-                        ImprimeMensagens("Fim do programa");
+                        ImprimeNoConsole("Fim do programa");
                         Console.ReadKey();
                     }
                     else if (opcaoEscolhida == "c")
@@ -250,6 +285,7 @@ namespace Projeto_para_estudos
                     else if (opcaoEscolhida == "b")
                     {
                         //buscar
+                        BuscaUserDoc( ListaUsuarios);
                     }
                     else if (opcaoEscolhida == "e")
                     {
@@ -257,7 +293,7 @@ namespace Projeto_para_estudos
                     }
                     else
                     {
-                        ImprimeMensagens("Opção Invalida!");
+                        ImprimeNoConsole("Opção Invalida!");
                         Console.Clear();
                     }
 
