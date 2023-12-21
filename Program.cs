@@ -20,7 +20,7 @@ namespace Projeto_para_estudos
             static string tgNumeroDocumento;
             static string caminhoDados;
 
-            public struct DadosDeUsuario_e
+            public struct DadosDeUsuario_E
             {
                 public string Nome;
                 public DateTime DataDeNascimento;
@@ -28,7 +28,7 @@ namespace Projeto_para_estudos
                 public uint NumeroDaCasa;
                 public string NumeroDocumento;
             }
-            public enum Resultado_e
+            public enum Resultado_E
             {
                 Sucesso = 0,
                 Sair = 1,
@@ -39,11 +39,11 @@ namespace Projeto_para_estudos
             {
                 Console.WriteLine(mensagem);
             }
-            public static Resultado_e PegaString(ref string minhaString, string mensagemNoMenu)
+            public static Resultado_E PegaString(ref string minhaString, string mensagemNoMenu)
             {
                 string temp = "";
 
-                Resultado_e retorno;
+                Resultado_E retorno;
                 do
                 {
                     Console.WriteLine(mensagemNoMenu);
@@ -57,18 +57,18 @@ namespace Projeto_para_estudos
                 } while (string.IsNullOrEmpty(temp));
 
                 if (temp == "s" || temp == "S")
-                    retorno = Resultado_e.Sair;
+                    retorno = Resultado_E.Sair;
                 else
                 {
                     minhaString = temp;
-                    retorno = Resultado_e.Sucesso;
+                    retorno = Resultado_E.Sucesso;
                 }
                 Console.Clear();
                 return retorno;
             }
-            public static Resultado_e PegaData(ref DateTime data, string mensagemNoMenu)
+            public static Resultado_E PegaData(ref DateTime data, string mensagemNoMenu)
             {
-                Resultado_e retorno;
+                Resultado_E retorno;
                 do
                 {
                     try
@@ -77,11 +77,11 @@ namespace Projeto_para_estudos
                         string temp = Console.ReadLine();
                         if (temp == "s" || temp == "S")
 
-                            retorno = Resultado_e.Sair;
+                            retorno = Resultado_E.Sair;
                         else
                         {
                             data = Convert.ToDateTime(temp);
-                            retorno = Resultado_e.Sucesso;
+                            retorno = Resultado_E.Sucesso;
                         }
                     }
                     catch (Exception ex)
@@ -90,16 +90,16 @@ namespace Projeto_para_estudos
                         ImprimeNoConsole("Presione qualquer tecla para continuar");
                         Console.ReadKey();
                         Console.Clear();
-                        retorno = Resultado_e.Excecao;
+                        retorno = Resultado_E.Excecao;
                     }
 
-                } while (retorno == Resultado_e.Excecao);
+                } while (retorno == Resultado_E.Excecao);
                 Console.Clear();
                 return retorno;
             }
-            public static Resultado_e PegaNumeroCasa(ref uint numeroCasa, string mensagemNoMenu)
+            public static Resultado_E PegaNumero_Uint32(ref uint numeroCasa, string mensagemNoMenu)
             {
-                Resultado_e retorno;
+                Resultado_E retorno;
                 do
                 {
                     try
@@ -108,11 +108,11 @@ namespace Projeto_para_estudos
                         string temp = Console.ReadLine();
                         if (temp == "s" || temp == "S")
 
-                            retorno = Resultado_e.Sair;
+                            retorno = Resultado_E.Sair;
                         else
                         {
                             numeroCasa = Convert.ToUInt32(temp);
-                            retorno = Resultado_e.Sucesso;
+                            retorno = Resultado_E.Sucesso;
                         }
                     }
                     catch (Exception ex)
@@ -121,42 +121,42 @@ namespace Projeto_para_estudos
                         ImprimeNoConsole("Presione qualquer tecla para continuar");
                         Console.ReadKey();
                         Console.Clear();
-                        retorno = Resultado_e.Excecao;
+                        retorno = Resultado_E.Excecao;
                     }
 
-                } while (retorno == Resultado_e.Excecao);
+                } while (retorno == Resultado_E.Excecao);
                 Console.Clear();
                 return retorno;
             }
-            public static Resultado_e CadastraUsuario(ref List<DadosDeUsuario_e> ListaUsuario_m)
+            public static Resultado_E CadastraUsuario(ref List<DadosDeUsuario_E> ListaUsuario_M)
             {
-                DadosDeUsuario_e cadastroDoUsuario;
+                DadosDeUsuario_E cadastroDoUsuario;
                 cadastroDoUsuario.Nome = "";
                 cadastroDoUsuario.DataDeNascimento = new DateTime();
                 cadastroDoUsuario.NomeDaRua = "";
                 cadastroDoUsuario.NumeroDaCasa = 0;
                 cadastroDoUsuario.NumeroDocumento = "";
 
-                if (PegaString(ref cadastroDoUsuario.Nome, "Digite o nome completo ou S para sair") == Resultado_e.Sair)
-                    return Resultado_e.Sair;
-                if (PegaData(ref cadastroDoUsuario.DataDeNascimento, "Digite a data de nascimento no formato DD/MM/YYYY ou S para sair") == Resultado_e.Sair)
-                    return Resultado_e.Sair;
-                if (PegaString(ref cadastroDoUsuario.NomeDaRua, "Digite o nome da rua ou S para sair") == Resultado_e.Sair)
-                    return Resultado_e.Sair;
-                if (PegaNumeroCasa(ref cadastroDoUsuario.NumeroDaCasa, "Digite o número da casa ou S para sair") == Resultado_e.Sair)
-                    return Resultado_e.Sair;
-                if (PegaString(ref cadastroDoUsuario.NumeroDocumento, "Digite o número do documento ou S para sair") == Resultado_e.Sair)
-                    return Resultado_e.Sair;
-                    ListaUsuario_m.Add(cadastroDoUsuario);
-                    GravaDados(caminhoDados, ListaUsuario_m);
-                return Resultado_e.Sucesso;
+                if (PegaString(ref cadastroDoUsuario.Nome, "Digite o nome completo ou S para sair") == Resultado_E.Sair)
+                    return Resultado_E.Sair;
+                if (PegaData(ref cadastroDoUsuario.DataDeNascimento, "Digite a data de nascimento no formato DD/MM/YYYY ou S para sair") == Resultado_E.Sair)
+                    return Resultado_E.Sair;
+                if (PegaString(ref cadastroDoUsuario.NomeDaRua, "Digite o nome da rua ou S para sair") == Resultado_E.Sair)
+                    return Resultado_E.Sair;
+                if (PegaNumero_Uint32(ref cadastroDoUsuario.NumeroDaCasa, "Digite o número da casa ou S para sair") == Resultado_E.Sair)
+                    return Resultado_E.Sair;
+                if (PegaString(ref cadastroDoUsuario.NumeroDocumento, "Digite o número do documento ou S para sair") == Resultado_E.Sair)
+                    return Resultado_E.Sair;
+                    ListaUsuario_M.Add(cadastroDoUsuario);
+                    GravaDados(caminhoDados, ListaUsuario_M);
+                return Resultado_E.Sucesso;
             }
-            public static void GravaDados(string caminho, List<DadosDeUsuario_e> ListaUsuarios)
+            public static void GravaDados(string caminho, List<DadosDeUsuario_E> ListaUsuarios)
             {
                 try
                 {
                     string exportaCadastro = "";
-                    foreach (DadosDeUsuario_e dadosCadastro in ListaUsuarios)
+                    foreach (DadosDeUsuario_E dadosCadastro in ListaUsuarios)
                     {
                         exportaCadastro += deLimitdorInicio + "\r\n";
                         exportaCadastro += tgNome + dadosCadastro.Nome + "\r\n";
@@ -175,14 +175,14 @@ namespace Projeto_para_estudos
                 }
 
             }
-            public static void CarregaDados(string caminho, ref List<DadosDeUsuario_e> ListaUsuarios)
+            public static void CarregaDados(string caminho, ref List<DadosDeUsuario_E> ListaUsuarios)
             {
                 try
                 {
                     if (File.Exists(caminho))
                     {
                         string[] conteudoRead = File.ReadAllLines(caminho);
-                        DadosDeUsuario_e dadosDoUsuario;
+                        DadosDeUsuario_E dadosDoUsuario;
                         dadosDoUsuario.Nome = "";
                         dadosDoUsuario.DataDeNascimento = new DateTime();
                         dadosDoUsuario.NomeDaRua = "";
@@ -213,22 +213,33 @@ namespace Projeto_para_estudos
                     Console.WriteLine("EXCEÇÃO: " + ex.Message);
                 }
             }
-            public static void BuscaUserDoc(List<DadosDeUsuario_e> ListaUsuarios)
+            public static void BuscaUserDoc(List<DadosDeUsuario_E> ListaUsuarios)
             {
-                ImprimeNoConsole("Digite o número do documento para buscar o usúario ou digite S para sair");
-                string temp = Console.ReadLine();
+                string temp = "";
+                do
+                {
+                    ImprimeNoConsole("Digite o número do documento para buscar o usúario ou digite S para sair");
+                    temp = Console.ReadLine();
+                    if (temp == string.Empty)
+                    {
+                        ImprimeNoConsole("Nenhum documento digitado!!");
+                        Console.ReadKey();
+                    }
+                    Console.Clear();
+                } while (string.IsNullOrEmpty(temp));
                 Console.Clear();
+
                 if (temp.ToLower() == "s")
                     return;
                 else
                 {
-                    List<DadosDeUsuario_e> ListaUsuariosTemp = ListaUsuarios.Where( user => user.NumeroDocumento == temp).ToList();
+                    List<DadosDeUsuario_E> ListaUsuariosTemp = ListaUsuarios.Where( user => user.NumeroDocumento == temp).ToList();
                     if (ListaUsuariosTemp.Count > 0)
                     {
                         ImprimeNoConsole("DOCUMENTO_ENCONTRADO: "+ ListaUsuariosTemp.Count);
-                        foreach(DadosDeUsuario_e userExiste in ListaUsuariosTemp)
+                        foreach(DadosDeUsuario_E userExiste in ListaUsuariosTemp)
                         {
-                            ImprimeNoConsole(tgNome + userExiste.Nome);
+                            ImprimeNoConsole(tgNome + userExiste.Nome.ToUpper());
                             ImprimeNoConsole(tgDtNascimento + userExiste.DataDeNascimento.ToString("dd/MM/yyyy"));
                             ImprimeNoConsole(tgNumeroDocumento + userExiste.NumeroDocumento);
                             ImprimeNoConsole(tgNomeDaRua + userExiste.NomeDaRua);
@@ -242,15 +253,12 @@ namespace Projeto_para_estudos
                         ImprimeNoConsole("Nenhum usúario encontrado com o documento: "+ temp);
                         Console.ReadKey();
                         Console.Clear();
-
                     }
-
                 }
-
             }
             static void Main(string[] args)
             {
-                List<DadosDeUsuario_e> ListaUsuarios = new List<DadosDeUsuario_e>();
+                List<DadosDeUsuario_E> ListaUsuarios = new List<DadosDeUsuario_E>();
                 string opcaoEscolhida = "";
                 deLimitdorInicio = "          ##### INICIO #####";
                 deLimitdorFim = "          ##### FIM #####";
