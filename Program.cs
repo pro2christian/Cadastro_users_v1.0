@@ -20,7 +20,7 @@ namespace Projeto_para_estudos
             static string tgNumeroDocumento;
             static string caminhoDados;
 
-            public struct DadosDeUsuario_E
+            public struct DadosDeUsuario_S
             {
                 public string Nome;
                 public DateTime DataDeNascimento;
@@ -128,9 +128,9 @@ namespace Projeto_para_estudos
                 Console.Clear();
                 return retorno;
             }
-            public static Resultado_E CadastraUsuario(ref List<DadosDeUsuario_E> ListaUsuario_M)
+            public static Resultado_E CadastraUsuario(ref List<DadosDeUsuario_S> ListaUsuario_M)
             {
-                DadosDeUsuario_E cadastroDoUsuario;
+                DadosDeUsuario_S cadastroDoUsuario;
                 cadastroDoUsuario.Nome = "";
                 cadastroDoUsuario.DataDeNascimento = new DateTime();
                 cadastroDoUsuario.NomeDaRua = "";
@@ -151,12 +151,12 @@ namespace Projeto_para_estudos
                     GravaDados(caminhoDados, ListaUsuario_M);
                 return Resultado_E.Sucesso;
             }
-            public static void GravaDados(string caminho, List<DadosDeUsuario_E> ListaUsuarios)
+            public static void GravaDados(string caminho, List<DadosDeUsuario_S> ListaUsuarios)
             {
                 try
                 {
                     string exportaCadastro = "";
-                    foreach (DadosDeUsuario_E dadosCadastro in ListaUsuarios)
+                    foreach (DadosDeUsuario_S dadosCadastro in ListaUsuarios)
                     {
                         exportaCadastro += deLimitdorInicio + "\r\n";
                         exportaCadastro += tgNome + dadosCadastro.Nome + "\r\n";
@@ -175,14 +175,14 @@ namespace Projeto_para_estudos
                 }
 
             }
-            public static void CarregaDados(string caminho, ref List<DadosDeUsuario_E> ListaUsuarios)
+            public static void CarregaDados(string caminho, ref List<DadosDeUsuario_S> ListaUsuarios)
             {
                 try
                 {
                     if (File.Exists(caminho))
                     {
                         string[] conteudoRead = File.ReadAllLines(caminho);
-                        DadosDeUsuario_E dadosDoUsuario;
+                        DadosDeUsuario_S dadosDoUsuario;
                         dadosDoUsuario.Nome = "";
                         dadosDoUsuario.DataDeNascimento = new DateTime();
                         dadosDoUsuario.NomeDaRua = "";
@@ -213,12 +213,12 @@ namespace Projeto_para_estudos
                     Console.WriteLine("EXCEÇÃO: " + ex.Message);
                 }
             }
-            public static void BuscaUserDoc(List<DadosDeUsuario_E> ListaUsuarios)
+            public static void BuscaUserDoc(List<DadosDeUsuario_S> ListaUsuarios)
             {
                 string temp = "";
                 do
                 {
-                    ImprimeNoConsole("Digite o número do documento para buscar o usúario ou digite S para sair");
+                    ImprimeNoConsole("Digite o número do documento para buscar o usúario ou S para sair");
                     temp = Console.ReadLine();
                     if (temp == string.Empty)
                     {
@@ -233,11 +233,11 @@ namespace Projeto_para_estudos
                     return;
                 else
                 {
-                    List<DadosDeUsuario_E> ListaUsuariosTemp = ListaUsuarios.Where( user => user.NumeroDocumento == temp).ToList();
+                    List<DadosDeUsuario_S> ListaUsuariosTemp = ListaUsuarios.Where( user => user.NumeroDocumento == temp).ToList();
                     if (ListaUsuariosTemp.Count > 0)
                     {
                         ImprimeNoConsole("DOCUMENTO_ENCONTRADO: "+ ListaUsuariosTemp.Count);
-                        foreach(DadosDeUsuario_E userExiste in ListaUsuariosTemp)
+                        foreach(DadosDeUsuario_S userExiste in ListaUsuariosTemp)
                         {
                             ImprimeNoConsole(tgNome + userExiste.Nome.ToUpper());
                             ImprimeNoConsole(tgDtNascimento + userExiste.DataDeNascimento.ToString("dd/MM/yyyy"));
@@ -255,10 +255,59 @@ namespace Projeto_para_estudos
                         Console.Clear();
                     }
                 }
+        }
+            public static void ExcluiUserDoc(string caminho, ref List<DadosDeUsuario_S> ListaUsuarios)
+            {
+                string temp = "";
+                bool ExcluidoSucesso = false;
+                int result = 0;
+                do
+                {
+                    ImprimeNoConsole("Para Excluir um usúario digite o número do documento ou S para sair");
+                    temp = Console.ReadLine();
+                    if (temp == string.Empty)
+                    {
+                      
+                        ImprimeNoConsole("Nenhum documento digitado!!");
+                           
+                        Console.ReadKey();
+                    }
+                    Console.Clear();
+                } while (int.TryParse(temp, out result));
+                if (temp.ToLower() == "s")
+                    return;
+                else
+                {
+                    List<DadosDeUsuario_S> ListaUsuariosTemp =  ListaUsuarios.Where(user => user.NumeroDocumento == temp).ToList();
+                    if (ListaUsuariosTemp.Count > 0)
+                    { foreach(DadosDeUsuario_S excluir in ListaUsuariosTemp)
+                        {
+                            ListaUsuarios.Remove(excluir);
+                            ExcluidoSucesso = true;
+                        }
+                    if (ExcluidoSucesso)
+                        {
+                            GravaDados(caminho, ListaUsuarios);
+                            foreach (DadosDeUsuario_S userExcluido in ListaUsuariosTemp)
+                            {
+                                ImprimeNoConsole("Usuário: " + tgNome + userExcluido.Nome.ToUpper());
+                                ImprimeNoConsole(tgNumeroDocumento + userExcluido.NumeroDocumento.ToUpper() +
+                                                "\n\rFoi Excluído com sucesso!".ToUpper());
+                            }
+                            Console.ReadKey();
+                        }
+                    }
+                    else
+                    {
+                        ImprimeNoConsole("Nenhum usúario encontrado com o documento: " + temp);
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                }
             }
             static void Main(string[] args)
             {
-                List<DadosDeUsuario_E> ListaUsuarios = new List<DadosDeUsuario_E>();
+                List<DadosDeUsuario_S> ListaUsuarios = new List<DadosDeUsuario_S>();
                 string opcaoEscolhida = "";
                 deLimitdorInicio = "          ##### INICIO #####";
                 deLimitdorFim = "          ##### FIM #####";
@@ -298,17 +347,15 @@ namespace Projeto_para_estudos
                     else if (opcaoEscolhida == "e")
                     {
                         //excluir
+                        ExcluiUserDoc(caminhoDados, ref ListaUsuarios);
                     }
                     else
                     {
                         ImprimeNoConsole("Opção Invalida!");
                         Console.Clear();
                     }
-
                 } while (opcaoEscolhida != "s");
-
             }
         }
     }
-
 }
