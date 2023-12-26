@@ -269,10 +269,11 @@ namespace Projeto_para_estudos
                     {
                       
                         ImprimeNoConsole("Nenhum documento digitado!!");
-                           
                         Console.ReadKey();
+                        Console.Clear();
+                        return;   
                     }
-                    Console.Clear();
+                    
                 } while (int.TryParse(temp, out result));
                 if (temp.ToLower() == "s")
                     return;
@@ -303,6 +304,7 @@ namespace Projeto_para_estudos
                         Console.ReadKey();
                         Console.Clear();
                     }
+
                 }
             }
             static void Main(string[] args)
