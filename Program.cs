@@ -260,7 +260,6 @@ namespace Projeto_para_estudos
             {
                 string temp = "";
                 bool ExcluidoSucesso = false;
-                int result = 0;
                 do
                 {
                     ImprimeNoConsole("Para Excluir um usúario digite o número do documento ou S para sair");
@@ -274,7 +273,7 @@ namespace Projeto_para_estudos
                         return;   
                     }
                     
-                } while (int.TryParse(temp, out result));
+                } while (string.IsNullOrEmpty(temp));
                 if (temp.ToLower() == "s")
                     return;
                 else
@@ -291,7 +290,7 @@ namespace Projeto_para_estudos
                             GravaDados(caminho, ListaUsuarios);
                             foreach (DadosDeUsuario_S userExcluido in ListaUsuariosTemp)
                             {
-                                ImprimeNoConsole("Usuário: " + tgNome + userExcluido.Nome.ToUpper());
+                                ImprimeNoConsole("Usuário: ".ToUpper() + tgNome + userExcluido.Nome.ToUpper());
                                 ImprimeNoConsole(tgNumeroDocumento + userExcluido.NumeroDocumento.ToUpper() +
                                                 "\n\rFoi Excluído com sucesso!".ToUpper());
                             }
